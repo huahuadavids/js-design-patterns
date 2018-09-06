@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Adapter</title>
+</head>
+<body>
+
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script type="text/babel">
+  /**
+   * @defination
+   * this can adapt between the interfaces and the uncompatible class
+   * The Object used this called Wrapper
+   *
+   * @good
+   * this can avoid overwrite too much code now
+   *
+   * @bad
+   *
+   */
+  class Duck {
+    constructor() {}
+    fly() {
+      throw new Error('This method must be overwritten!');
+    }
+    quack() {
+      throw new Error('This method must be overwritten!');
+    }
+  }
+
+
+  class BigDuck extends Duck {
+    fly() {
+      console.log('I am a big duck and I can fly ');
+    }
+
+    quack() {
+      console.log('I am a big duck, Quack! Quack!');
+    }
+  }
+
+  // -------
+
+  class Fish {
+    swim() {
+      throw new Error('This method must be overwritten!');
+    }
+
+    drink() {
+      throw new Error('This method must be overwritten');
+    }
+  }
+
+  class Shark extends Fish {
+    swim() {
+      console.log('I am swimming ');
+    }
+
+    drink() {
+      console.log('I drink water');
+    }
+  }
+
+  // implement class Duck but use a Shark instance
+  // behavior like a turkey
+  class FishAdapter extends Duck {
+    constructor(shark) {
+      super(shark);
+      this.shark = shark;
+    }
+
+    fly() {
+      this.shark.swim();
+    }
+
+    quack() {
+      this.shark.drink();
+    }
+  }
+
+
+
+  // this init a BigDuck instance
+  let big_duck = new BigDuck();
+  big_duck.fly();
+  big_duck.quack();
+
+  // this init a WildTurkey instance
+  let shark = new Shark();
+  shark.swim();
+  shark.drink();
+
+  let fishAdapter = new FishAdapter(shark);
+  fishAdapter.fly();
+  fishAdapter.quack();
+
+
+</script>
+
+
+</body>
+</html>

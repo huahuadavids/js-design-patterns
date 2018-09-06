@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>singleton</title>
+</head>
+<body>
+<script>
+  /**
+   * @definination
+   * The Singleton
+   * --This guarantee there is only an instance for a Class, and
+   * --provide a global entry;
+   * It limits the amount of the instance;
+   * this always implement a method called getInstance
+   *
+   *@exemplae
+   * -- It always used for the communication coordination between different system with different modes
+   */
+
+  /**
+   * @TYPE 1
+   * implement this with a plain Object , add some attrs and methods when needed
+   */
+  var obj = {
+    name: "something",
+    intro: "something else",
+    say: function () {
+      console.log('hello world');
+      console.log(this.name)
+    }
+  };
+  obj.say();
+
+  /**
+   * @TYPE 2
+   * a simple singleton with closure
+   */
+
+  var Singleton = (function () {
+    var name = "";
+    var age = 0;
+    return {
+      name: "david",
+      age: 11
+    };
+  })();
+  console.log(Singleton.name)
+
+  /**
+   * @TYPE 3
+   * lazy singleton that instantiate when needed
+   */
+  var Singleton = (function () {
+    var info;
+    function init(){
+      var name = "david";
+      var age = 0;
+      return {
+        name: name,
+        age: age
+      };
+    }
+    return {
+      getInstance: function(){
+        if(info){
+          return info;
+        }
+        info = init();
+        return info;
+      }
+    }
+  })();
+
+
+  var sin = Singleton.getInstance();
+  var sin1 = Singleton.getInstance();
+  console.log(sin1 === sin)
+
+  /**
+   * @TYPE 4
+   * branch singleton that have many types
+   */
+  var getScreenSingleton = (function () {
+    var smallScreen = {
+      label: "mini",
+      price: "low"
+    }
+    var bigScreen = {
+      label: "big",
+      price: "high"
+    }
+    if(window.screen.width > 600){
+      return  bigScreen;
+    }
+    if(window.screen.width < 500){
+      return smallScreen;
+    }
+  })();
+  console.log(getScreenSingleton)
+
+
+  /**
+   * @type 5
+   * implement this with a constructor function
+   */
+
+  function Universe() {
+    // check if exists the instance return is , if not instantiate this
+    if (typeof Universe.instance === 'object') {
+      return Universe.instance;
+    }
+    // attrs
+    this.start_time = 0;
+    this.bang = "Big";
+    // cached
+    Universe.instance = this;
+    // return this hidden
+  }
+
+  // this is a test
+  var uni = new Universe();
+  var uni2 = new Universe();
+  console.log(uni === uni2); // true
+
+
+
+</script>
+</body>
+</html>
